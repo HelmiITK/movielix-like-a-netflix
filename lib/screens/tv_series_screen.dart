@@ -113,7 +113,7 @@ class _TvSeriesState extends State<TvSeries> {
                           // Navigasi ke halaman detail dengan seriesId
                           Navigator.pushNamed(
                             context,
-                            '/detail_movie', // Rute detail movie
+                            '/detail_tv', // Rute detail movie
                             arguments: seriesId,
                           );
                         },

@@ -10,6 +10,7 @@ import 'package:movielix/movie/providers/movie_get_upcoming_provider.dart';
 import 'package:movielix/movie/repositories/movie_repositories.dart';
 import 'package:movielix/movie/repositories/movie_repositories_impl.dart';
 import 'package:movielix/screens/detail_film_screen.dart';
+import 'package:movielix/screens/detail_tv_screen.dart';
 import 'package:movielix/screens/forgot_password_screen.dart';
 import 'package:movielix/screens/home_screen.dart';
 import 'package:movielix/screens/login_screen.dart';
@@ -20,6 +21,7 @@ import 'package:movielix/screens/splash_screen.dart';
 import 'package:movielix/screens/test_doang.dart';
 // import 'package:movielix/screens/trailer_movie_screen.dart';
 import 'package:movielix/screens/tv_series_screen.dart';
+import 'package:movielix/tv/providers/tv_get_detail_provider.dart';
 import 'package:movielix/tv/providers/tv_get_popular_provider.dart';
 import 'package:movielix/tv/repositories/tv_repositories.dart';
 import 'package:movielix/tv/repositories/tv_repositories_impl.dart';
@@ -76,6 +78,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => MovieGetDetailProvider(movieRepositories),
         ),
+        ChangeNotifierProvider(
+          create: (_) => TvGetDetailProvider(tvRepositories),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -87,12 +92,18 @@ class MyApp extends StatelessWidget {
           '/forgot_password': (context) => const ForgotPassword(),
           '/home': (context) => const HomeScreen(),
           // '/detail_movie': (context) => const DetailMovie(),
+
           '/detail_movie': (context) {
             // Ambil argument yang dikirim sebagai ID movie
             final movieId = ModalRoute.of(context)!.settings.arguments as int;
 
             // Pastikan mengirim movieId ke DetailMovie
             return DetailMovie(movieId: movieId);
+          },
+
+          '/detail_tv': (context) {
+            final seriesId = ModalRoute.of(context)!.settings.arguments as int;
+            return DetailTvScreen(seriesId: seriesId);
           },
 
           '/TvSeries': (context) => const TvSeries(),
