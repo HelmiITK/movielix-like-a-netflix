@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "772853641519",
+    "project_id": "movie-gratis-fc0ad",
+    "storage_bucket": "movie-gratis-fc0ad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772853641519:android:5497cdb647e260de9db1da",
+        "android_client_info": {
+          "package_name": "com.example.movielix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNSXUSqxyJzIf-TR-Ca4HhVlxLxncSNh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
