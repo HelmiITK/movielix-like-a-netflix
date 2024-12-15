@@ -78,26 +78,6 @@ class MovieRepositoriesImpl implements MovieRepositories {
   }
 
   // DETAIL MOVIE
-  // @override
-  // Future<Either<String, DetailMovieResponseModel>> getMovieDetail(
-  //     int movieId) async {
-  //   try {
-  //     final result = await _dio.get('/movie/$movieId');
-
-  //     if (result.statusCode == 200 && result.data != null) {
-  //       final model = DetailMovieResponseModel.fromJson(result.data);
-  //       return Right(model);
-  //     }
-
-  //     return const Left('Error fetching movie details');
-  //   } on DioException catch (e) {
-  //     if (e.response != null) {
-  //       return Left(e.response.toString());
-  //     }
-  //     return const Left('Another error on fetching movie details');
-  //   }
-  // }
-
   @override
   Future<Either<String, DetailMovieResponseModel>> getMovieDetail(
       int movieId) async {
@@ -121,6 +101,33 @@ class MovieRepositoriesImpl implements MovieRepositories {
       return Right(DetailMovieResponseModel.fromJson(response.data));
     } catch (e) {
       return Left('Failed to fetch movie details: $e');
+    }
+  }
+
+  // SEARCH MOVIE
+  @override
+  Future<Either<String, MovieResponseModel>> getMovieBySearch(String query,
+      {int page = 1}) async {
+    try {
+      final result = await _dio.get(
+        '/search/movie',
+        queryParameters: {
+          'query': query,
+          'page': page,
+        },
+      );
+
+      if (result.statusCode == 200 && result.data != null) {
+        final model = MovieResponseModel.fromJson(result.data);
+        return Right(model);
+      }
+
+      return const Left('Error fetching movies by search');
+    } on DioException catch (e) {
+      if (e.response != null) {
+        return Left(e.response.toString());
+      }
+      return const Left('Another error on fetching movies by search');
     }
   }
 }

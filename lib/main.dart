@@ -6,6 +6,7 @@ import 'package:movielix/firebase_options.dart';
 import 'package:movielix/movie/providers/movie_get_detail_provider.dart';
 import 'package:movielix/movie/providers/movie_get_discover_provider.dart';
 import 'package:movielix/movie/providers/movie_get_genres_provider.dart';
+import 'package:movielix/movie/providers/movie_get_search_provider.dart';
 import 'package:movielix/movie/providers/movie_get_upcoming_provider.dart';
 import 'package:movielix/movie/repositories/movie_repositories.dart';
 import 'package:movielix/movie/repositories/movie_repositories_impl.dart';
@@ -80,6 +81,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => TvGetDetailProvider(tvRepositories),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MovieGetSearchProvider(movieRepositories),
         ),
       ],
       child: MaterialApp(

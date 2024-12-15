@@ -8,4 +8,5 @@ abstract class MovieRepositories {
   Future<Either<String, MovieResponseModel>> getUpcoming({int page = 1});
   Future<Either<String, GenreResponseModel>> getGenres();
   Future<Either<String, DetailMovieResponseModel>> getMovieDetail(int movieId);
+  Future<Either<String, MovieResponseModel>> getMovieBySearch(String query, {int page = 1});
 }

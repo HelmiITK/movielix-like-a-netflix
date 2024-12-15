@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movielix/movie/providers/movie_get_detail_provider.dart';
+// import 'package:movielix/movie/providers/movie_get_genres_provider.dart';
 import 'package:provider/provider.dart';
 
 class DetailMovie extends StatefulWidget {
@@ -23,6 +24,10 @@ class _DetailMovieState extends State<DetailMovie> {
       Provider.of<MovieGetDetailProvider>(context, listen: false)
           .getMovieDetail(context, widget.movieId); // Kirim movieId ke provider
     });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   Provider.of<MovieGetGenresProvider>(context, listen: false)
+    //       .getGenres(context); // Kirim movieId ke provider
+    // });
   }
 
   @override
@@ -127,6 +132,7 @@ class _DetailMovieState extends State<DetailMovie> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            // Release
                             Row(
                               children: [
                                 const Icon(
@@ -147,6 +153,7 @@ class _DetailMovieState extends State<DetailMovie> {
                                 ),
                               ],
                             ),
+                            // Genre
                             Row(
                               children: [
                                 ElevatedButton(
