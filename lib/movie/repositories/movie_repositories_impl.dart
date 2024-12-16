@@ -4,6 +4,7 @@ import 'package:movielix/app_constants.dart';
 import 'package:movielix/movie/models/detail_model.dart';
 import 'package:movielix/movie/models/genre_model.dart';
 import 'package:movielix/movie/models/movie_model.dart';
+import 'package:movielix/movie/models/video_model.dart';
 import 'package:movielix/movie/repositories/movie_repositories.dart';
 
 class MovieRepositoriesImpl implements MovieRepositories {
@@ -128,6 +129,32 @@ class MovieRepositoriesImpl implements MovieRepositories {
         return Left(e.response.toString());
       }
       return const Left('Another error on fetching movies by search');
+    }
+  }
+
+  // VIDEO TRAILER
+  @override
+  Future<Either<String, VideoMovieResponseModel>> getMovieVideo(
+      int movieId) async {
+    try {
+      final response = await _dio.get(
+        '/movie/$movieId/videos',
+        queryParameters: {
+          'api_key': AppConstants.apiKey,
+        },
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final model = VideoMovieResponseModel.fromJson(response.data);
+        return Right(model);
+      }
+
+      return const Left('Error fetching movie videos');
+    } on DioException catch (e) {
+      if (e.response != null) {
+        return Left(e.response.toString());
+      }
+      return const Left('Another error on fetching movie videos');
     }
   }
 }

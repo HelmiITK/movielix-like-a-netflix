@@ -51,7 +51,7 @@ class _LoginState extends State<Login> {
               icon: const Icon(Icons.arrow_back,
                   color: Color.fromARGB(255, 236, 16, 0)),
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(context, '/splash');
               },
               style: const ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(
@@ -237,16 +237,63 @@ class _LoginState extends State<Login> {
   }
 
   _login() async {
-    final user = await _auth.loginUserWithEmailAndPassword(
-      _emailController.text,
-      _passwordController.text,
-    );
-    if (user != null) {
-      log("User Logged in: id [ ${user.uid} ]");
-      log("User Logged in: username [ ${user.displayName} ]");
-      if (mounted) {
-        goToHome(context);
+    if (!_formKey.currentState!.validate()) return;
+
+    try {
+      final user = await _auth.loginUserWithEmailAndPassword(
+        _emailController.text,
+        _passwordController.text,
+      );
+
+      if (user != null) {
+        log("User Logged in: id [ ${user.uid} ]");
+        log("User Logged in: username [ ${user.displayName} ]");
+        if (mounted) {
+          goToHome(context);
+        }
+      } else {
+        _showErrorDialog('Login failed. Please check your email or password.');
       }
+    } catch (e) {
+      _showErrorDialog('An error occurred. Please try again later.');
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          backgroundColor: Colors.black, 
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            side:
+                const BorderSide(color: Colors.red, width: 2), 
+          ),
+          title: const Text(
+            'Error',
+            style:
+                TextStyle(color: Colors.red), 
+          ),
+          content: Text(
+            message,
+            style: const TextStyle(
+                color: Colors.white), 
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                    color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
     }
   }
 }

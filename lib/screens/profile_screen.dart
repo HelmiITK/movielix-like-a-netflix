@@ -37,7 +37,7 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  bool _obscurePassword = true; // Password disembunyikan secara default
+  // bool _obscurePassword = true; // Password disembunyikan secara default
   bool setUser = false;
 
   // Get User from firebase
@@ -56,7 +56,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    // final _auth = AuthProvider();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: const CustomAppBar(),
@@ -80,7 +79,7 @@ class _ProfileState extends State<Profile> {
               _buildProfileCard(),
               const SizedBox(height: 40),
 
-              // button logout
+              // Button Logout
               ElevatedButton.icon(
                 onPressed: _logout,
                 icon: const Icon(
@@ -228,53 +227,160 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 10),
 
               // Password field
-              Row(
-                children: [
-                  const Icon(Icons.lock, color: Colors.white),
-                  const SizedBox(width: 10),
-                  Text(
-                    'Password',
-                    style: GoogleFonts.poppins(
-                      color: Colors.red[900],
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  // Password text
-                  Expanded(
-                    child: Text(
-                      _obscurePassword ? '••••••••' : 'password123',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  // Eye icon button
-                  IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     const Icon(Icons.lock, color: Colors.white),
+              //     const SizedBox(width: 10),
+              //     Text(
+              //       'Password',
+              //       style: GoogleFonts.poppins(
+              //         color: Colors.red[900],
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(height: 5),
+              // Row(
+              //   children: [
+              //     // Password text
+              //     Expanded(
+              //       child: Text(
+              //         _obscurePassword ? '••••••••' : 'password123',
+              //         style: GoogleFonts.poppins(
+              //           color: Colors.white,
+              //           fontSize: 16,
+              //         ),
+              //       ),
+              //     ),
+              //     // Eye icon button
+              //     IconButton(
+              //       icon: Icon(
+              //         _obscurePassword
+              //             ? Icons.visibility_off
+              //             : Icons.visibility,
+              //         color: Colors.white,
+              //       ),
+              //       onPressed: () {
+              //         setState(() {
+              //           _obscurePassword = !_obscurePassword;
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+
+              // // Button untuk mengubah password
+              // const SizedBox(height: 20),
+              // ElevatedButton(
+              //   onPressed: _showChangePasswordDialog,
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: Colors.red[900],
+              //     padding:
+              //         const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //   ),
+              //   child: Text(
+              //     'Change Password',
+              //     style: GoogleFonts.poppins(
+              //       color: Colors.white,
+              //       fontWeight: FontWeight.w600,
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
       ),
     );
   }
+
+  // _showChangePasswordDialog() {
+  //   TextEditingController currentPasswordController = TextEditingController();
+  //   TextEditingController newPasswordController = TextEditingController();
+  //   TextEditingController confirmPasswordController = TextEditingController();
+
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text(
+  //           'Change Password',
+  //           style: GoogleFonts.poppins(color: Colors.red[900]),
+  //         ),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             TextField(
+  //               controller: currentPasswordController,
+  //               obscureText: true,
+  //               decoration: const InputDecoration(
+  //                 labelText: 'Current Password',
+  //                 icon: Icon(Icons.lock),
+  //               ),
+  //             ),
+  //             TextField(
+  //               controller: newPasswordController,
+  //               obscureText: true,
+  //               decoration: const InputDecoration(
+  //                 labelText: 'New Password',
+  //                 icon: Icon(Icons.lock_outline),
+  //               ),
+  //             ),
+  //             TextField(
+  //               controller: confirmPasswordController,
+  //               obscureText: true,
+  //               decoration: const InputDecoration(
+  //                 labelText: 'Confirm New Password',
+  //                 icon: Icon(Icons.lock_outline),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: Text(
+  //               'Cancel',
+  //               style: GoogleFonts.poppins(color: Colors.red[900]),
+  //             ),
+  //           ),
+  //           TextButton(
+  //             onPressed: () async {
+  //               // Validasi dan update password
+  //               if (newPasswordController.text ==
+  //                   confirmPasswordController.text) {
+  //                 try {
+  //                   await _user?.updatePassword(newPasswordController.text);
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     SnackBar(content: Text('Password updated successfully')),
+  //                   );
+  //                   Navigator.of(context).pop();
+  //                 } catch (e) {
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     SnackBar(content: Text('Failed to update password: $e')),
+  //                   );
+  //                 }
+  //               } else {
+  //                 ScaffoldMessenger.of(context).showSnackBar(
+  //                   const SnackBar(content: Text('Passwords do not match')),
+  //                 );
+  //               }
+  //             },
+  //             child: Text(
+  //               'Change',
+  //               style: GoogleFonts.poppins(color: Colors.red[900]),
+  //             ),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 }

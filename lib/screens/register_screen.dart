@@ -275,16 +275,55 @@ class _RegisterState extends State<Register> {
   }
 
   _signup() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     final user = await _auth.createUserWithEmailAndPassword(
       _emailController.text,
       _passwordController.text,
       _nameController.text,
     );
     if (user != null) {
-      log("User Creadted Succesfully id: ${user.uid}");
+      log("User Created Successfully id: ${user.uid}");
       if (mounted) {
         goToLogin(context);
       }
+    } else {
+      _showErrorDialog("Registration failed. Please try again.");
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            side: const BorderSide(color: Colors.red, width: 2),
+          ),
+          title: const Text(
+            'Error',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: Text(
+            message,
+            style: const TextStyle(color: Colors.white),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
     }
   }
 }

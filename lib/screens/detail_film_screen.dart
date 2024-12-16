@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movielix/movie/providers/movie_get_detail_provider.dart';
-// import 'package:movielix/movie/providers/movie_get_genres_provider.dart';
+import 'package:movielix/movie/providers/movie_get_video_provider.dart';
 import 'package:provider/provider.dart';
 
 class DetailMovie extends StatefulWidget {
@@ -23,11 +23,11 @@ class _DetailMovieState extends State<DetailMovie> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<MovieGetDetailProvider>(context, listen: false)
           .getMovieDetail(context, widget.movieId); // Kirim movieId ke provider
+
+      // Panggil getMovieVideo dengan ID film yang sudah tersedia
+      Provider.of<MovieGetVideoProvider>(context, listen: false)
+          .getMovieVideo(context, widget.movieId);
     });
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   Provider.of<MovieGetGenresProvider>(context, listen: false)
-    //       .getGenres(context); // Kirim movieId ke provider
-    // });
   }
 
   @override
@@ -367,37 +367,50 @@ class _DetailMovieState extends State<DetailMovie> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/trailer_movie',
-                    // arguments: castData,
+              Consumer<MovieGetVideoProvider>(
+                builder: (_, movieProvider, __) {
+                  // Ambil movieId dari provider
+                  final movieId = movieProvider.movieVideo;
+                  return ElevatedButton.icon(
+                    onPressed: () {
+                      if (movieId != null) {
+                        Navigator.pushNamed(
+                          context,
+                          '/trailer_movie',
+                          arguments: movieId.id,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text("Movie ID not available")),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 255, 17, 0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 13,
+                        horizontal: 80,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    icon: const Icon(
+                      Icons.play_arrow_outlined,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    label: Text(
+                      'Watch Trailer',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 255, 17, 0),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 13,
-                    horizontal: 80,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
-                icon: const Icon(
-                  Icons.play_arrow_outlined,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                label: Text(
-                  'Watch Trailer',
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
               ),
             ],
           ),

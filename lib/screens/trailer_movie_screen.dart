@@ -1,118 +1,132 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:url_launcher/url_launcher.dart';
-// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-// import 'package:logging/logging.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:movielix/movie/providers/movie_get_video_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-// class TrailerMovie extends StatefulWidget {
-//   const TrailerMovie({super.key});
+class VideoTrailerScreen extends StatefulWidget {
+  final int movieId; // Menyimpan movieId yang diteruskan
+  const VideoTrailerScreen({super.key, required this.movieId});
 
-//   @override
-//   State<TrailerMovie> createState() => _TrailerMovieState();
-// }
+  @override
+  State<VideoTrailerScreen> createState() => _VideoTrailerScreenState();
+}
 
-// class _TrailerMovieState extends State<TrailerMovie> {
-//   final videoURL = "https://www.youtube.com/watch?v=zkJZ9H0Xp3k";
-//   YoutubePlayerController? _controller;
-//   final _logger = Logger('TrailerMovie');
+class _VideoTrailerScreenState extends State<VideoTrailerScreen> {
+  late int movieId;
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     final videoID = YoutubePlayer.convertUrlToId(videoURL);
-//     if (videoID != null) {
-//       _controller = YoutubePlayerController(
-//         initialVideoId: videoID,
-//         flags: const YoutubePlayerFlags(autoPlay: false),
-//       );
-//     } else {
-//       _logger.severe('Error: Video ID could not be extracted from the URL.');
-//     }
-//   }
+  @override
+  void initState() {
+    super.initState();
+    movieId = widget.movieId;
+    // Memanggil provider untuk fetch data detail movie saat pertama kali layar dimuat
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<MovieGetVideoProvider>(context, listen: false)
+          .getMovieVideo(context, widget.movieId);
+    });
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.black,
-//       appBar: AppBar(
-//         backgroundColor: Colors.black,
-//         elevation: 0,
-//         iconTheme: const IconThemeData(
-//           color: Color.fromARGB(255, 255, 17, 0),
-//         ),
-//         title: Padding(
-//           padding: const EdgeInsets.only(
-//             right: 25,
-//           ),
-//           child: Center(
-//             child: Text(
-//               'Trailer',
-//               style: GoogleFonts.poppins(
-//                 color: const Color.fromARGB(255, 255, 17, 0),
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//       body: _controller != null
-//           ? SingleChildScrollView(
-//               child: Padding(
-//                 padding: const EdgeInsets.all(8.0),
-//                 child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     YoutubePlayer(
-//                       controller: _controller!,
-//                       showVideoProgressIndicator: true,
-//                     ),
-//                     const SizedBox(height: 20),
-//                     const Divider(color: Colors.red),
-//                     const SizedBox(height: 20),
-//                     ElevatedButton.icon(
-//                       onPressed: () async {
-//                         const url =
-//                             'https://www.youtube.com/watch?v=zkJZ9H0Xp3k';
-//                         if (await canLaunch(url)) {
-//                           await launch(url);
-//                         } else {
-//                           throw 'Could not launch $url';
-//                         }
-//                       },
-//                       icon: const Icon(
-//                         Icons.play_arrow,
-//                         color: Colors.white,
-//                         size: 30,
-//                       ),
-//                       label: Text(
-//                         'Watch on Youtube',
-//                         style: GoogleFonts.poppins(
-//                           color: Colors.white,
-//                           fontWeight: FontWeight.w600,
-//                           fontSize: 18,
-//                         ),
-//                       ),
-//                       style: ElevatedButton.styleFrom(
-//                         backgroundColor: const Color.fromARGB(255, 255, 17, 0),
-//                         padding: const EdgeInsets.symmetric(
-//                           vertical: 10,
-//                           horizontal: 20,
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             )
-//           : Center(
-//               child: Text(
-//                 'Error loading video. Please check the video URL.',
-//                 style: GoogleFonts.poppins(
-//                   color: Colors.red,
-//                   fontSize: 18,
-//                 ),
-//               ),
-//             ),
-//     );
-//   }
-// }
+  @override
+  void didUpdateWidget(covariant VideoTrailerScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Jika movieId berubah, kita akan membersihkan data sebelumnya dan memuat ulang data
+    if (widget.movieId != oldWidget.movieId) {
+      setState(() {
+        movieId = widget.movieId; // Mengupdate movieId jika terjadi perubahan
+      });
+
+      // Membersihkan data lama sebelum mengambil data baru
+      Provider.of<MovieGetVideoProvider>(context, listen: false)
+          .clearMovieVideo();
+
+      // Panggil kembali getMovieVideo dengan ID baru
+      Provider.of<MovieGetVideoProvider>(context, listen: false)
+          .getMovieVideo(context, widget.movieId);
+    }
+  }
+
+  // Fungsi untuk meluncurkan URL video YouTube
+  Future<void> _launchUrl(String videoKey) async {
+    final url = Uri.parse('https://www.youtube.com/watch?v=$videoKey');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        iconTheme: const IconThemeData(
+          color: Color.fromARGB(255, 255, 17, 0),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Center(
+                child: Text(
+                  'Video ${widget.movieId}',
+                  style: GoogleFonts.poppins(
+                    color: const Color.fromARGB(255, 255, 17, 0),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Consumer<MovieGetVideoProvider>(builder: (_, videoProvider, __) {
+        if (videoProvider.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(color: Colors.red),
+          );
+        }
+
+        final movieVideo = videoProvider.movieVideo;
+        if (movieVideo == null || movieVideo.results.isEmpty) {
+          return const Center(
+            child: Text(
+              'No videos available for this movie.',
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        }
+
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              // Add your movie details content here
+              const Text('Movie Overview and Details'),
+              // Tampilan video dan tombol
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: movieVideo.results.length,
+                itemBuilder: (context, index) {
+                  final video = movieVideo.results[index];
+                  return ListTile(
+                    title: Text(video.name),
+                    subtitle: Text("Type: ${video.type}"),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.play_arrow),
+                      onPressed: () {
+                        // Panggil fungsi untuk meluncurkan URL YouTube dengan video key
+                        _launchUrl(video.key);
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+}

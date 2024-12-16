@@ -8,6 +8,7 @@ import 'package:movielix/movie/providers/movie_get_discover_provider.dart';
 import 'package:movielix/movie/providers/movie_get_genres_provider.dart';
 import 'package:movielix/movie/providers/movie_get_search_provider.dart';
 import 'package:movielix/movie/providers/movie_get_upcoming_provider.dart';
+import 'package:movielix/movie/providers/movie_get_video_provider.dart';
 import 'package:movielix/movie/repositories/movie_repositories.dart';
 import 'package:movielix/movie/repositories/movie_repositories_impl.dart';
 import 'package:movielix/screens/detail_film_screen.dart';
@@ -19,8 +20,7 @@ import 'package:movielix/screens/profile_screen.dart';
 import 'package:movielix/screens/register_screen.dart';
 import 'package:movielix/screens/search_results_screen.dart';
 import 'package:movielix/screens/splash_screen.dart';
-import 'package:movielix/screens/test_doang.dart';
-// import 'package:movielix/screens/trailer_movie_screen.dart';
+import 'package:movielix/screens/trailer_movie_screen.dart';
 import 'package:movielix/screens/tv_series_screen.dart';
 import 'package:movielix/tv/providers/tv_get_detail_provider.dart';
 import 'package:movielix/tv/providers/tv_get_popular_provider.dart';
@@ -85,12 +85,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => MovieGetSearchProvider(movieRepositories),
         ),
+        ChangeNotifierProvider(
+          create: (_) => MovieGetVideoProvider(movieRepositories),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/login',
+        initialRoute: '/splash',
         routes: {
-          '/login': (context) => const SplashScreen(),
+          '/splash': (context) => const SplashScreen(),
           '/register': (context) => const Register(),
           '/login_account': (context) => const Login(),
           '/forgot_password': (context) => const ForgotPassword(),
@@ -112,10 +115,15 @@ class MyApp extends StatelessWidget {
 
           '/TvSeries': (context) => const TvSeries(),
           '/profile': (context) => const Profile(),
-          // '/trailer_movie': (context) => const TrailerMovie(),
-          '/search_results': (context) => const SearchResults(),
 
-          '/test': (context) => const TestDoang(),
+          '/trailer_movie': (context) {
+            // Ambil argument yang dikirim sebagai ID movie
+            final movieId = ModalRoute.of(context)!.settings.arguments as int;
+
+            // Pastikan mengirim movieId ke DetailMovie
+            return VideoTrailerScreen(movieId: movieId);
+          },
+          '/search_results': (context) => const SearchResults(),
         },
       ),
     );

@@ -13,6 +13,16 @@ class MovieGetDiscoverProvider with ChangeNotifier {
   final List<MovieModel> _movies = [];
   List<MovieModel> get movies => _movies;
 
+  // // Tambahkan properti untuk menyimpan movieId saat ini
+  // int? _currentMovieId;
+  // int? get currentMovieId => _currentMovieId;
+
+  // // Set movieId saat ini
+  // void setCurrentMovieId(int movieId) {
+  //   _currentMovieId = movieId;
+  //   notifyListeners();
+  // }
+
   // Discover Movie or Popular Movie
   Future<void> getDiscover(BuildContext context) async {
     _isLoading = true;
