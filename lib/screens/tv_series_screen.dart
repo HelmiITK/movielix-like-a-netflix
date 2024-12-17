@@ -60,13 +60,27 @@ class _TvSeriesState extends State<TvSeries> {
             children: [
               Center(
                 heightFactor: 1.3,
-                child: Text(
-                  "Tv Series ",
-                  style: GoogleFonts.poppins(
-                    color: const Color.fromARGB(255, 218, 24, 10),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Tv Series ",
+                      style: GoogleFonts.poppins(
+                        color: const Color.fromARGB(255, 218, 24, 10),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Informasi ini hanya tentang TV Series, bukan untuk streaming.",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white70,
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
               Consumer<TvGetPopularProvider>(

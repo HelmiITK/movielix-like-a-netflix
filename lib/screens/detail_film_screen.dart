@@ -15,7 +15,7 @@ class DetailMovie extends StatefulWidget {
 
 class _DetailMovieState extends State<DetailMovie> {
   bool isExpanded = false;
-
+  // bool isFavorite = false;
   @override
   void initState() {
     super.initState();
@@ -29,6 +29,20 @@ class _DetailMovieState extends State<DetailMovie> {
           .getMovieVideo(context, widget.movieId);
     });
   }
+
+  // void toggleFavorite() {
+  //   setState(() {
+  //     isFavorite = !isFavorite;
+  //   });
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(
+  //         isFavorite ? "Added to Favorites" : "Removed from Favorites",
+  //       ),
+  //       duration: const Duration(seconds: 1),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +60,8 @@ class _DetailMovieState extends State<DetailMovie> {
             Expanded(
               child: Center(
                 child: Text(
-                  'Detail ${widget.movieId}',
+                  // 'Detail ${widget.movieId}',
+                  'Detail Movie',
                   style: GoogleFonts.poppins(
                     color: const Color.fromARGB(255, 255, 17, 0),
                     fontWeight: FontWeight.bold,
@@ -54,10 +69,17 @@ class _DetailMovieState extends State<DetailMovie> {
                 ),
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.favorite_border,
-                  color: Color.fromARGB(255, 255, 17, 0)),
-              onPressed: () {},
+            // IconButton(
+            //   icon: Icon(
+            //     isFavorite ? Icons.favorite : Icons.favorite_border,
+            //     color: const Color.fromARGB(255, 255, 17, 0),
+            //   ),
+            //   onPressed: toggleFavorite,
+            // ),
+            Image.asset(
+              'assets/icons/Movielix_icon.png',
+              width: 60,
+              height: 60,
             ),
           ],
         ),
@@ -92,11 +114,7 @@ class _DetailMovieState extends State<DetailMovie> {
               children: [
                 // Image Movie
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                    left: 12,
-                    right: 12,
-                  ),
+                  padding: const EdgeInsets.only(top: 30, left: 12, right: 12),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: Image.network(
@@ -107,6 +125,7 @@ class _DetailMovieState extends State<DetailMovie> {
                     ),
                   ),
                 ),
+
                 // konten detail
                 Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -153,64 +172,48 @@ class _DetailMovieState extends State<DetailMovie> {
                                 ),
                               ],
                             ),
+                            const SizedBox(width: 20),
                             // Genre
-                            Row(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 255, 17, 0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
-                                  ),
-                                  child: const Text(
-                                    'Sci-Fi',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children:
+                                      movieDetail.genres.map<Widget>((genre) {
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color.fromARGB(
+                                              255, 255, 17, 0),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(18),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 14,
+                                            vertical: 2,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          genre.name,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
                                 ),
-                                const SizedBox(width: 10),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 255, 17, 0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
-                                  ),
-                                  child: const Text(
-                                    'Action',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 255, 17, 0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 8),
-                                  ),
-                                  child: const Text(
-                                    'Drama',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
                       ),
+
                       const SizedBox(height: 1),
 
                       // Average Rating
@@ -243,7 +246,7 @@ class _DetailMovieState extends State<DetailMovie> {
                           ],
                         ),
                       ),
-                      const Divider(color: Colors.red),
+                      const Divider(color: Color.fromARGB(255, 226, 28, 13)),
 
                       // Overview
                       const Padding(
@@ -286,71 +289,24 @@ class _DetailMovieState extends State<DetailMovie> {
                         ),
                       ),
 
-                      // Caster
-                      // const Padding(
-                      //   padding: EdgeInsets.all(8.0),
-                      //   child: Text(
-                      //     "Cast",
-                      //     style: TextStyle(
-                      //       color: Colors.white,
-                      //       fontWeight: FontWeight.bold,
-                      //       fontSize: 18,
-                      //     ),
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: castData.map((cast) {
-                      //       return Padding(
-                      //         padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      //         child: SizedBox(
-                      //           width: 100,
-                      //           child: ElevatedButton(
-                      //             onPressed: () {},
-                      //             style: ElevatedButton.styleFrom(
-                      //               padding: const EdgeInsets.all(8.0),
-                      //               backgroundColor: Colors.transparent,
-                      //               side: const BorderSide(
-                      //                 color: Color.fromARGB(226, 224, 5, 5),
-                      //                 width: 1,
-                      //               ),
-                      //               shape: RoundedRectangleBorder(
-                      //                 borderRadius: BorderRadius.circular(14),
-                      //               ),
-                      //             ),
-                      //             child: Column(
-                      //               children: [
-                      //                 // Menampilkan foto pemeran
-                      //                 ClipRRect(
-                      //                   borderRadius: BorderRadius.circular(50),
-                      //                   child: Image.network(
-                      //                     cast['imageUrl']!,
-                      //                     width: 50,
-                      //                     height: 50,
-                      //                     fit: BoxFit.cover,
-                      //                   ),
-                      //                 ),
-                      //                 const SizedBox(height: 8),
-                      //                 // Menampilkan nama pemeran
-                      //                 Text(
-                      //                   cast['name']!,
-                      //                   style: const TextStyle(
-                      //                     color: Colors.white,
-                      //                   ),
-                      //                   maxLines: 1,
-                      //                   overflow: TextOverflow.ellipsis,
-                      //                   textAlign: TextAlign.center,
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       );
-                      //     }).toList(),
-                      //   ),
-                      // ),
+                      const Divider(color: Color.fromARGB(255, 226, 28, 13)),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 14,
+                          horizontal: 8,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Detail film ini hanya bersifat informasi, bukan untuk streaming.",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

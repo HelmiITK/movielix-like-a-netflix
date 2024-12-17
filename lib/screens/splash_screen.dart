@@ -44,7 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
                         bottom: 10,
                       ),
                       child: Text(
-                        "Bioskop Online Terbaik !",
+                        "Refrensi Film Bioskop Online Terbaik !",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                             color: Colors.white,
                             fontSize: 20,
@@ -67,44 +68,6 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(
-                    //     left: 17,
-                    //     right: 17,
-                    //     bottom: 20,
-                    //   ),
-                    //   child: Card(
-                    //     shape: BeveledRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(3.0)),
-                    //     color: Colors.white,
-                    //     child: InkWell(
-                    //       onTap: () {
-                    //         Navigator.pushReplacementNamed(context, '/home');
-                    //       },
-                    //       child: Padding(
-                    //         padding: const EdgeInsets.all(7.0),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.center,
-                    //           children: [
-                    //             Image.asset(
-                    //               "assets/icons/icon_google.png",
-                    //               width: 30,
-                    //             ),
-                    //             const SizedBox(width: 10),
-                    //             Text(
-                    //               "Login Sekarang",
-                    //               style: GoogleFonts.poppins(
-                    //                 fontSize: 18,
-                    //                 fontWeight: FontWeight.w600,
-                    //                 color: Colors.black,
-                    //               ),
-                    //             )
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

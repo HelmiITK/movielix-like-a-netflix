@@ -51,7 +51,26 @@ class _SearchResultsState extends State<SearchResults> {
                     style: TextStyle(color: Colors.white),
                   ),
                 )
-              : _buildMovieGrid(searchResults), // Menggunakan GridView
+              : Column(
+                  children: [
+                    Expanded(
+                      child: _buildMovieGrid(
+                          searchResults), // GridView hasil pencarian
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Hasil pencarian ini hanya bersifat informasi, bukan untuk streaming.",
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
     );
   }
 
@@ -74,7 +93,7 @@ class _SearchResultsState extends State<SearchResults> {
             // Navigasi ke halaman detail
             Navigator.pushNamed(
               context,
-              '/detail_movie', 
+              '/detail_movie',
               arguments: movie.id, // Kirimkan ID movie ke halaman detail
             );
           },

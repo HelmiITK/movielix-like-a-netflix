@@ -347,24 +347,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
 
-                // Mendapatkan genre ID berdasarkan genre yang dipilih
-                // int? selectedGenreId = genreProvider.genres
-                //     .firstWhere(
-                //       (genre) => genre.name == selectedGenre,
-                //       // orElse: () => null,
-                //     )
-                //     .id;
-
-                // Set default genre ID to "Action" dynamically (if not already set)
-                // if (selectedGenre == 0) {
-                //   final actionGenre = genreProvider.genres.firstWhere(
-                //     (genre) => genre.id == 28, // ID for "Action"
-                //     orElse: () =>
-                //         genreProvider.genres.first, // Fallback to first genre
-                //   );
-                //   selectedGenre = actionGenre.id;
-                // }
-
                 // Update nama genre berdasarkan ID
                 selectedGenreName = genreProvider.genres
                     .firstWhere(
@@ -417,7 +399,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(top: 10, left: 10),
                       child: Text(
                         // 'Genre ID: $selectedGenre',
-                        'Genre : $selectedGenreName [$selectedGenre]',
+                        // 'Genre : $selectedGenreName [$selectedGenre]',
+                        'Genre: $selectedGenreName',
                         style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontSize: 16,

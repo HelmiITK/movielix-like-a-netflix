@@ -1,4 +1,4 @@
-package com.example.movielix
+package com.movielix_app
 
 import io.flutter.embedding.android.FlutterActivity
 

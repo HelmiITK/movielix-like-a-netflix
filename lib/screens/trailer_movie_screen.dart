@@ -71,13 +71,19 @@ class _VideoTrailerScreenState extends State<VideoTrailerScreen> {
             Expanded(
               child: Center(
                 child: Text(
-                  'Video ${widget.movieId}',
+                  // 'Video ${widget.movieId}',
+                  'Movie Trailer',
                   style: GoogleFonts.poppins(
                     color: const Color.fromARGB(255, 255, 17, 0),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+            ),
+            Image.asset(
+              'assets/icons/Movielix_icon.png',
+              width: 60,
+              height: 60,
             ),
           ],
         ),
@@ -101,20 +107,37 @@ class _VideoTrailerScreenState extends State<VideoTrailerScreen> {
 
         return SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Add your movie details content here
-              const Text('Movie Overview and Details'),
-              // Tampilan video dan tombol
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Trailer video hanya tersedia di YouTube dan bukan untuk streaming langsung. Tekan tombol play untuk membuka trailer di aplikasi YouTube.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
               ListView.builder(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: movieVideo.results.length,
                 itemBuilder: (context, index) {
                   final video = movieVideo.results[index];
                   return ListTile(
-                    title: Text(video.name),
-                    subtitle: Text("Type: ${video.type}"),
+                    title: Text(
+                      video.name,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      "Type: ${video.type}",
+                      style: const TextStyle(color: Colors.grey),
+                    ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.play_arrow),
+                      icon: const Icon(Icons.play_arrow, color: Colors.red),
                       onPressed: () {
                         // Panggil fungsi untuk meluncurkan URL YouTube dengan video key
                         _launchUrl(video.key);

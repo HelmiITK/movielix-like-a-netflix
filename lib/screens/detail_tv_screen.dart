@@ -45,7 +45,8 @@ class _DetailTvScreenState extends State<DetailTvScreen> {
             Expanded(
               child: Center(
                 child: Text(
-                  'Detail TV ${widget.seriesId}',
+                  // 'Detail TV ${widget.seriesId}',
+                  'Detail TV Series',
                   style: GoogleFonts.poppins(
                     color: const Color.fromARGB(255, 255, 17, 0),
                     fontWeight: FontWeight.bold,
@@ -53,10 +54,15 @@ class _DetailTvScreenState extends State<DetailTvScreen> {
                 ),
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.favorite_border,
-                  color: Color.fromARGB(255, 255, 17, 0)),
-              onPressed: () {},
+            // IconButton(
+            //   icon: const Icon(Icons.favorite_border,
+            //       color: Color.fromARGB(255, 255, 17, 0)),
+            //   onPressed: () {},
+            // ),
+            Image.asset(
+              'assets/icons/Movielix_icon.png',
+              width: 60,
+              height: 60,
             ),
           ],
         ),
@@ -79,18 +85,6 @@ class _DetailTvScreenState extends State<DetailTvScreen> {
               ),
             );
           }
-
-          // Validasi jika tvDetail null atau data yang dibutuhkan tidak ada
-          // if (tvDetail == null ||
-          //     tvDetail.backdropPath == null ||
-          //     tvDetail.backdropPath!.isEmpty) {
-          //   return const Center(
-          //     child: Text(
-          //       'Failed to load tv details or no image available.',
-          //       style: TextStyle(color: Colors.white),
-          //     ),
-          //   );
-          // }
 
           return SingleChildScrollView(
             child: Column(
@@ -134,7 +128,7 @@ class _DetailTvScreenState extends State<DetailTvScreen> {
                         ),
                       ),
 
-                      // Release Date dan Genre
+                      // Release Date
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -195,7 +189,7 @@ class _DetailTvScreenState extends State<DetailTvScreen> {
                           ],
                         ),
                       ),
-                      const Divider(color: Colors.red),
+                      const Divider(color: Color.fromARGB(255, 226, 28, 13)),
 
                       // Overview
                       const Padding(
@@ -219,6 +213,24 @@ class _DetailTvScreenState extends State<DetailTvScreen> {
                               fontSize: 16,
                               height: 1.5,
                             ),
+                          ),
+                        ),
+                      ),
+
+                      // Teks tambahan di bawah deskripsi
+                      const Divider(color: Color.fromARGB(255, 226, 28, 13)),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 8.0),
+                        child: Center(
+                          child: Text(
+                            "Detail acara TV ini hanya bersifat informasi, bukan untuk streaming.",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
