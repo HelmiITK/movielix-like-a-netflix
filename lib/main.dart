@@ -12,7 +12,7 @@ import 'package:movielix/movie/providers/movie_get_video_provider.dart';
 import 'package:movielix/movie/repositories/movie_repositories.dart';
 import 'package:movielix/movie/repositories/movie_repositories_impl.dart';
 // import 'package:movielix/provider/auth_provider.dart';
-import 'package:movielix/provider/update_password_model.dart';
+// import 'package:movielix/provider/update_password_model.dart';
 import 'package:movielix/screens/detail_film_screen.dart';
 import 'package:movielix/screens/detail_tv_screen.dart';
 import 'package:movielix/screens/forgot_password_screen.dart';
@@ -24,7 +24,7 @@ import 'package:movielix/screens/search_results_screen.dart';
 import 'package:movielix/screens/splash_screen.dart';
 import 'package:movielix/screens/trailer_movie_screen.dart';
 import 'package:movielix/screens/tv_series_screen.dart';
-import 'package:movielix/screens/update_password.dart';
+// import 'package:movielix/screens/update_password.dart';
 import 'package:movielix/tv/providers/tv_get_detail_provider.dart';
 import 'package:movielix/tv/providers/tv_get_popular_provider.dart';
 import 'package:movielix/tv/repositories/tv_repositories.dart';
@@ -91,9 +91,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => MovieGetVideoProvider(movieRepositories),
         ),
-        ChangeNotifierProvider(
-          create: (_) => UpdatePasswordProvider(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (_) => UpdatePasswordProvider(),
+        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
