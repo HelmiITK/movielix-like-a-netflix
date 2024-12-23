@@ -59,7 +59,7 @@ class _TvSeriesState extends State<TvSeries> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Center(
-                heightFactor: 1.3,
+                heightFactor: 1,
                 child: Column(
                   children: [
                     Text(
@@ -70,7 +70,7 @@ class _TvSeriesState extends State<TvSeries> {
                         fontSize: 30,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
                     Text(
                       "Informasi ini hanya tentang TV Series, bukan untuk streaming.",
                       style: GoogleFonts.poppins(
@@ -83,6 +83,7 @@ class _TvSeriesState extends State<TvSeries> {
                   ],
                 ),
               ),
+              const SizedBox(height: 8),
               Consumer<TvGetPopularProvider>(
                 builder: (_, provider, __) {
                   if (provider.isLoading) {

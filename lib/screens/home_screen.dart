@@ -510,7 +510,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           const SizedBox(width: 4),
                                           Text(
-                                            voteAverage.toString(),
+                                            voteAverage.toStringAsFixed(1),
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,

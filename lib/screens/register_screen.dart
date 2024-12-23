@@ -60,7 +60,7 @@ class _RegisterState extends State<Register> {
               icon: const Icon(Icons.arrow_back,
                   color: Color.fromARGB(255, 236, 16, 0)),
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(context, '/splash');
               },
               style: const ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(

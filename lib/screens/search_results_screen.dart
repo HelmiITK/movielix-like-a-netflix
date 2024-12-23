@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:movielix/app_constants.dart';
+// import 'package:movielix/components/custom_app_bar_widget.dart';
 import 'package:movielix/movie/providers/movie_get_search_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:movielix/movie/models/movie_model.dart';
@@ -12,6 +14,7 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
+  final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final searchProvider = Provider.of<MovieGetSearchProvider>(context);
@@ -20,24 +23,46 @@ class _SearchResultsState extends State<SearchResults> {
 
     return Scaffold(
       backgroundColor: Colors.black,
+      // appBar: const CustomAppBar(),
       appBar: AppBar(
-        backgroundColor: Colors.red[900],
-        title: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            'Search Results',
-            style: TextStyle(color: Colors.white),
-          ),
+        backgroundColor: const Color.fromARGB(255, 163, 17, 7),
+        elevation: 0,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search, color: Colors.white),
-            onPressed: () {
-              _showSearchDialog(context, searchProvider);
-            },
-          ),
-        ],
+        automaticallyImplyLeading: false,
+        // centerTitle: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const SizedBox(width: 2),
+                Text(
+                  'Search Results',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 180, // Lebar fixed untuk search bar
+              child: _buildSearchBar(searchProvider),
+            ),
+          ],
+        ),
       ),
+
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(
@@ -191,55 +216,120 @@ class _SearchResultsState extends State<SearchResults> {
     );
   }
 
-  // dialog search
-  void _showSearchDialog(
-      BuildContext context, MovieGetSearchProvider searchProvider) {
-    final TextEditingController searchController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.grey[900],
-          title: const Text(
-            'Search Movies',
-            style: TextStyle(color: Colors.white),
+  Widget _buildSearchBar(MovieGetSearchProvider searchProvider) {
+    return Container(
+      height: 35,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+        borderRadius: BorderRadius.circular(25.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
           ),
-          content: TextField(
-            controller: searchController,
-            style: const TextStyle(color: Colors.white),
-            decoration: const InputDecoration(
-              hintText: 'Enter movie name...',
-              hintStyle: TextStyle(color: Colors.white54),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.red),
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child:
-                  const Text('Cancel', style: TextStyle(color: Colors.white)),
-            ),
-            TextButton(
-              onPressed: () {
-                final query = searchController.text.trim();
-                if (query.isNotEmpty) {
-                  searchProvider.searchMovies(query, context);
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _searchController,
+              style: const TextStyle(color: Colors.white),
+              onSubmitted: (query) {
+                if (query.trim().isNotEmpty) {
+                  searchProvider.searchMovies(query.trim(), context);
                 }
-                Navigator.of(context).pop();
               },
-              child: const Text('Search', style: TextStyle(color: Colors.red)),
+              decoration: const InputDecoration(
+                hintText: 'Search here...',
+                hintStyle: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w300,
+                ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(
+                  top: 12,
+                  bottom: 9,
+                  left: 15,
+                ),
+              ),
             ),
-          ],
-        );
-      },
+          ),
+          IconButton(
+            padding: const EdgeInsets.only(
+              bottom: 9,
+              top: 4,
+              left: 5,
+            ),
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              final query = _searchController.text.trim();
+              if (query.isNotEmpty) {
+                searchProvider.searchMovies(query, context);
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }
+
+//   // dialog search
+//   void _showSearchDialog(
+//       BuildContext context, MovieGetSearchProvider searchProvider) {
+//     final TextEditingController searchController = TextEditingController();
+
+//     showDialog(
+//       context: context,
+//       builder: (context) {
+//         return AlertDialog(
+//           backgroundColor: Colors.grey[900],
+//           title: const Text(
+//             'Search Movies',
+//             style: TextStyle(color: Colors.white),
+//           ),
+//           content: TextField(
+//             controller: searchController,
+//             style: const TextStyle(color: Colors.white),
+//             decoration: const InputDecoration(
+//               hintText: 'Enter movie name...',
+//               hintStyle: TextStyle(color: Colors.white54),
+//               enabledBorder: UnderlineInputBorder(
+//                 borderSide: BorderSide(color: Colors.white),
+//               ),
+//               focusedBorder: UnderlineInputBorder(
+//                 borderSide: BorderSide(color: Colors.red),
+//               ),
+//             ),
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//               },
+//               child:
+//                   const Text('Cancel', style: TextStyle(color: Colors.white)),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 final query = searchController.text.trim();
+//                 if (query.isNotEmpty) {
+//                   searchProvider.searchMovies(query, context);
+//                 }
+//                 Navigator.of(context).pop();
+//               },
+//               child: const Text('Search', style: TextStyle(color: Colors.red)),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }
