@@ -70,4 +70,29 @@ class AuthProvider {
       return null;
     }
   }
+
+  // Update Password
+  Future<bool> updatePassword(String newPassword) async {
+    try {
+      if (newPassword.isEmpty) {
+        log("Password baru tidak boleh kosong.");
+        return false;
+      }
+
+      final user = _auth.currentUser;
+      if (user != null) {
+        await user.updatePassword(newPassword);
+        await user.reload();
+        log("Password berhasil diperbarui untuk user ${user.uid}.");
+        return true;
+      } else {
+        log("Tidak ada user yang sedang login.");
+      }
+    } on auth.FirebaseAuthException catch (e) {
+      log("Error saat memperbarui password: ${e.message}");
+    } catch (e) {
+      log("Kesalahan tidak diketahui: $e");
+    }
+    return false;
+  }
 }
