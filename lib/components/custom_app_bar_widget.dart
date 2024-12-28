@@ -6,19 +6,19 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
   @override
-  _CustomAppBarState createState() => _CustomAppBarState();
+  CustomAppBarState createState() => CustomAppBarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class CustomAppBarState extends State<CustomAppBar> {
   final TextEditingController searchController = TextEditingController();
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
-    final provider = context.read<MovieGetSearchProvider>();
+    // final provider = context.read<MovieGetSearchProvider>();
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
